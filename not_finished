@@ -36,3 +36,45 @@ class Solution(object):
                 else:
                     return False
         return p == ''
+
+class Solution(object):
+    def trapRainWater(self, heightMap):
+        """
+        :type heightMap: List[List[int]]
+        :rtype: int
+        """
+        n_h_m = []
+        temp = [0] * len(heightMap[0])
+        for i in range(len(heightMap)):
+            n_h_m.append(temp)
+
+        for i in range(len(heightMap)):
+            m = 0
+            for j in range(len(heightMap[0])):
+                m = max(heightMap[i][j], m)
+                n_h_m[i][j] = m
+        for i in reversed(range(len(heightMap))):
+            m = 0
+            for j in reversed(xrange(len(heightMap[0]))):
+                m = max(heightMap[i][j], m)
+                n_h_m[i][j] = min(m, n_h_m[i][j])
+                
+        for j in range(len(heightMap[0])):
+            m = 0
+            for i in range(len(heightMap)):
+                m = max(heightMap[i][j], m)
+                n_h_m[i][j] = min(m, n_h_m[i][j])
+        for j in reversed(range(len(heightMap[0]))):
+            m = 0
+            for i in reversed(xrange(len(heightMap))):
+                m = max(heightMap[i][j], m)
+                n_h_m[i][j] = min(m, n_h_m[i][j])
+
+        result = 0
+        for i in range(len(n_h_m)):
+            for j in range(len(n_h_m[0])):
+                if (n_h_m[i][j] - heightMap[i][j])> 0:
+                    result += n_h_m[i][j] - heightMap[i][j]
+        print n_h_m
+        return result
+        

@@ -1,43 +1,4 @@
 class Solution(object):
-    def isMatch(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: bool
-        """
-        p = p[::-1]
-        s = s[::-1]
-        
-        return self.match(s, p)
-        
-    def match(self, s, p):    
-        l_s = len(s)
-        l_p = len(p)
-        
-        i_s = 0
-        i_p = 0
-        if s == p:
-            return True
-
-        while i_s < l_s:
-            if i_p < l_p and (p[i_p] == "." or p[i_p] == s[i_s]):
-                i_p += 1
-                i_s += 1
-            elif i_p < l_p and p[i_p] == "*":
-                if i_p + 1 < l_p:
-                    c = p[i_p+1]
-                    if self.atch(s, p[i_p+2:]):
-                        return True
-                    else:
-                        while i_s < l_s:
-                            i_s += 1
-                            self.atch(s[i_s:], p[i_p+2:])
-                        
-                else:
-                    return False
-        return p == ''
-
-class Solution(object):
     def trapRainWater(self, heightMap):
         """
         :type heightMap: List[List[int]]

@@ -1,41 +1,50 @@
-class Solution(object):
-    def trapRainWater(self, heightMap):
-        """
-        :type heightMap: List[List[int]]
-        :rtype: int
-        """
-        n_h_m = []
-        temp = [0] * len(heightMap[0])
-        for i in range(len(heightMap)):
-            n_h_m.append(temp)
+class Codec:
 
-        for i in range(len(heightMap)):
-            m = 0
-            for j in range(len(heightMap[0])):
-                m = max(heightMap[i][j], m)
-                n_h_m[i][j] = m
-        for i in reversed(range(len(heightMap))):
-            m = 0
-            for j in reversed(xrange(len(heightMap[0]))):
-                m = max(heightMap[i][j], m)
-                n_h_m[i][j] = min(m, n_h_m[i][j])
-                
-        for j in range(len(heightMap[0])):
-            m = 0
-            for i in range(len(heightMap)):
-                m = max(heightMap[i][j], m)
-                n_h_m[i][j] = min(m, n_h_m[i][j])
-        for j in reversed(range(len(heightMap[0]))):
-            m = 0
-            for i in reversed(xrange(len(heightMap))):
-                m = max(heightMap[i][j], m)
-                n_h_m[i][j] = min(m, n_h_m[i][j])
-
-        result = 0
-        for i in range(len(n_h_m)):
-            for j in range(len(n_h_m[0])):
-                if (n_h_m[i][j] - heightMap[i][j])> 0:
-                    result += n_h_m[i][j] - heightMap[i][j]
-        print n_h_m
-        return result
+    def serialize(self, root):
+        """Encodes a tree to a single string.
         
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ""
+        result = []
+        queue = [root]
+        while len(queue) > 0:
+            x = queue.pop(0)
+            if x:
+                queue.append(x.left)
+                queue.append(x.right)
+                result.append(str(x.val))
+            else:
+                result.append('null')
+        print "".join(result)
+        return ",".join(result)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        x = data.split(",")
+        print x
+        root = TreeNode(None)
+        root.val = x.pop(0)
+        node = root
+        queue = [node]
+        result = []
+        while len(x) > 0 or len(queue) > 0:
+            current_node = queue.pop(0) if len(queue) > 0 else None
+            left = TreeNode(None)
+            left_val = x.pop(0) if len(x) > 0 else None
+            if left_val == 'null':
+                left.val = left_val
+            right = TreeNode(None) 
+            right_val = x.pop(0) if len(x) > 0 else None
+            if right_val == 'null':
+                right.val = right_val
+            current_node.left = left
+            current_node.right = right
+            result.append(current_node)
+        return result
